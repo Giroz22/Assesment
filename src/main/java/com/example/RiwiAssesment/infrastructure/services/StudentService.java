@@ -15,6 +15,7 @@ import com.example.RiwiAssesment.domain.entities.StudentEntity;
 import com.example.RiwiAssesment.domain.repositories.IStudentRepository;
 import com.example.RiwiAssesment.infrastructure.abstract_services.IStudentService;
 import com.example.RiwiAssesment.infrastructure.helpers.mappers.StudentMapper;
+import com.example.RiwiAssesment.util.exceptions.IdNotFoundException;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,7 @@ public class StudentService
     public StudentResponse create(StudentRequest request) {
 
         ClassEntity classEntity = classService.find(request.getIdClass());
+        if(!classEntity.isActive()) new IdNotFoundException("Class"); 
 
         StudentEntity studentEntity = this.mapper.requestToEntity(request);  
         studentEntity.setActive(true);
