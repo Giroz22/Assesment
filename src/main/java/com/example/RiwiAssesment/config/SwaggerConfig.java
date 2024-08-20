@@ -12,8 +12,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Assesment API")
+                        .title("Multimedia content management API")
                         .version("1.0")
-                        .description("Assesment solution"));
+                        .description("Multimedia content management API for virtual classrooms to enable RIWI to efficiently store and manage classes, lessons and multimedia materials."));
     }
 }
