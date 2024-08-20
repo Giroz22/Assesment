@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.RiwiAssesment.api.dto.errors.ErrorsResponse;
-import com.example.RiwiAssesment.infrastructure.services.GenericService;
+import com.example.RiwiAssesment.infrastructure.abstract_services.IGenericService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 public abstract class GenericController<E,ID,RQ,RS> {
     @Autowired
-    protected GenericService<E,ID,RQ,RS> service;
+    protected IGenericService<E,ID,RQ,RS> service;
 
     @Operation(summary = "Retrieves a list of all resources ")
     @ApiResponse(responseCode = "400", description = "Invalid query parameters",      
