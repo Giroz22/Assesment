@@ -70,4 +70,13 @@ public class StudentController
             this.service.findById(id)
         );
     }
+
+    @GetMapping("/{id}/disable")
+    public ResponseEntity<StudentResponse> disable(@PathVariable String id) {
+        return ResponseEntity.ok().body(
+            this.service.disable(id)
+        );
+    }
+    
+    
 }
