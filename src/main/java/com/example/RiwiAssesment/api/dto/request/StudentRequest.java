@@ -14,6 +14,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentRequest {
+
+    private String idClass;
+
     @NotNull(message = "The url is required")    
     private String name;
 

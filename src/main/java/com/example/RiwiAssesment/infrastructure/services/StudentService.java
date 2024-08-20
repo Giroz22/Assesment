@@ -1,5 +1,8 @@
 package com.example.RiwiAssesment.infrastructure.services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.RiwiAssesment.api.dto.request.StudentRequest;
 import com.example.RiwiAssesment.api.dto.response.StudentResponse;
+import com.example.RiwiAssesment.domain.entities.ClassEntity;
 import com.example.RiwiAssesment.domain.entities.StudentEntity;
 import com.example.RiwiAssesment.domain.repositories.IStudentRepository;
 import com.example.RiwiAssesment.infrastructure.abstract_services.IStudentService;
 import com.example.RiwiAssesment.infrastructure.helpers.mappers.StudentMapper;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -25,6 +30,9 @@ public class StudentService
     private IStudentRepository repository;
 
     @Autowired
+    private ClassService classService;
+
+    @Autowired
     private StudentMapper mapper;
 
     public Page<StudentResponse> findAllByName(String name, int page, int size) {
@@ -36,6 +44,24 @@ public class StudentService
         return this.repository.findByNameContainingAndActiveTrue(name, pagination).map((entity) ->
             this.mapper.entityToResponse(entity)
         );
+    }
+
+    @Override
+    @Transactional
+    public StudentResponse create(StudentRequest request) {
+
+        ClassEntity classEntity = classService.find(request.getIdClass());
+
+        StudentEntity studentEntity = this.mapper.requestToEntity(request);  
+        studentEntity.setActive(true);
+        studentEntity.setCreateAt(LocalDateTime.now());   
+        studentEntity.setClasses(new ArrayList<>()); 
+
+        studentEntity.getClasses().add(classEntity);
+        
+        StudentEntity entitySaved = this.repository.save(studentEntity);
+
+        return this.mapper.entityToResponse(entitySaved);
     }
     
 }

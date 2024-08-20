@@ -3,12 +3,16 @@ package com.example.RiwiAssesment.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.RiwiAssesment.api.dto.errors.ErrorsResponse;
+import com.example.RiwiAssesment.api.dto.request.StudentRequest;
 import com.example.RiwiAssesment.api.dto.response.StudentResponse;
 import com.example.RiwiAssesment.infrastructure.services.StudentService;
 
@@ -42,5 +46,14 @@ public class StudentController
         return ResponseEntity.ok().body(this.service.findAllByName(name,page-1,size));
     }
 
-    
+    @Operation(summary = "Creates a new resource")
+    @ApiResponse(responseCode = "400", description = "Incorrect or missing input data.",      
+        content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+        }
+    )
+    @PostMapping("")
+    public ResponseEntity<StudentResponse> create(@Validated @RequestBody StudentRequest request) {
+        return ResponseEntity.ok().body(this.service.create(request));
+    }
 }
