@@ -1,5 +1,7 @@
 package com.example.RiwiAssesment.infrastructure.helpers.mappers;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,5 +16,7 @@ public abstract class MultimediaMapper
     @Override
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "lessonEntity", ignore = true)
-    public abstract MultimediaEntity requestToEntity(MultimediaRequest request);   
+    public abstract MultimediaEntity requestToEntity(MultimediaRequest request); 
+    
+    public abstract List<MultimediaEntity> listRQtoListE(List<MultimediaRequest> multimedia);
 }

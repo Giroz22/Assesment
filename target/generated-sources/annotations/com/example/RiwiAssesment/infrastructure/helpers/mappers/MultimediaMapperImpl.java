@@ -3,12 +3,14 @@ package com.example.RiwiAssesment.infrastructure.helpers.mappers;
 import com.example.RiwiAssesment.api.dto.request.MultimediaRequest;
 import com.example.RiwiAssesment.api.dto.response.base.MultimediaBaseResponse;
 import com.example.RiwiAssesment.domain.entities.MultimediaEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-20T12:31:57-0500",
+    date = "2024-08-20T14:15:41-0500",
     comments = "version: 1.6.0, compiler: Eclipse JDT (IDE) 3.39.0.v20240725-1906, environment: Java 17.0.11 (Eclipse Adoptium)"
 )
 @Component
@@ -45,5 +47,19 @@ public class MultimediaMapperImpl extends MultimediaMapper {
         multimediaEntity.url( request.getUrl() );
 
         return multimediaEntity.build();
+    }
+
+    @Override
+    public List<MultimediaEntity> listRQtoListE(List<MultimediaRequest> multimedia) {
+        if ( multimedia == null ) {
+            return null;
+        }
+
+        List<MultimediaEntity> list = new ArrayList<MultimediaEntity>( multimedia.size() );
+        for ( MultimediaRequest multimediaRequest : multimedia ) {
+            list.add( requestToEntity( multimediaRequest ) );
+        }
+
+        return list;
     }
 }

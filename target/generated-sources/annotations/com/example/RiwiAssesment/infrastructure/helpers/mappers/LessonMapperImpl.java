@@ -1,7 +1,6 @@
 package com.example.RiwiAssesment.infrastructure.helpers.mappers;
 
 import com.example.RiwiAssesment.api.dto.request.LessonRequest;
-import com.example.RiwiAssesment.api.dto.request.MultimediaRequest;
 import com.example.RiwiAssesment.api.dto.response.LessonResponse;
 import com.example.RiwiAssesment.api.dto.response.base.ClassBaseResponse;
 import com.example.RiwiAssesment.api.dto.response.base.MultimediaBaseResponse;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-20T12:31:50-0500",
+    date = "2024-08-20T14:15:57-0500",
     comments = "version: 1.6.0, compiler: Eclipse JDT (IDE) 3.39.0.v20240725-1906, environment: Java 17.0.11 (Eclipse Adoptium)"
 )
 @Component
@@ -53,7 +52,7 @@ public class LessonMapperImpl extends LessonMapper {
 
         lessonEntity.description( request.getDescription() );
         lessonEntity.duration( request.getDuration() );
-        lessonEntity.multimedia( multimediaRequestListToMultimediaEntityList( request.getMultimedia() ) );
+        lessonEntity.multimedia( multimediaMapper.listRQtoListE( request.getMultimedia() ) );
         lessonEntity.title( request.getTitle() );
 
         return lessonEntity.build();
@@ -82,19 +81,6 @@ public class LessonMapperImpl extends LessonMapper {
         List<MultimediaBaseResponse> list1 = new ArrayList<MultimediaBaseResponse>( list.size() );
         for ( MultimediaEntity multimediaEntity : list ) {
             list1.add( multimediaMapper.entityToResponse( multimediaEntity ) );
-        }
-
-        return list1;
-    }
-
-    protected List<MultimediaEntity> multimediaRequestListToMultimediaEntityList(List<MultimediaRequest> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<MultimediaEntity> list1 = new ArrayList<MultimediaEntity>( list.size() );
-        for ( MultimediaRequest multimediaRequest : list ) {
-            list1.add( multimediaMapper.requestToEntity( multimediaRequest ) );
         }
 
         return list1;
