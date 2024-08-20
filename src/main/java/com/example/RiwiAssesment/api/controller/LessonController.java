@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/lessons")
 @AllArgsConstructor
-public class LessonController extends GenericController<LessonEntity,String,LessonRequest,LessonResponse>{
+public class LessonController 
+    extends GenericController<LessonEntity,String,LessonRequest,LessonResponse>
+{
     
 }
