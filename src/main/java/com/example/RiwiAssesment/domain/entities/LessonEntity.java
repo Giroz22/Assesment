@@ -48,7 +48,7 @@ public class LessonEntity {
     @OneToMany(
         mappedBy = "lessonEntity",
         cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
+        fetch = FetchType.EAGER
     )
     private List<MultimediaEntity> multimedia;
 }

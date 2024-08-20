@@ -1,5 +1,7 @@
 package com.example.RiwiAssesment.infrastructure.services;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +14,7 @@ import com.example.RiwiAssesment.domain.repositories.IClassRepository;
 import com.example.RiwiAssesment.infrastructure.abstract_services.IClassService;
 import com.example.RiwiAssesment.infrastructure.helpers.mappers.ClassMapper;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -36,5 +39,18 @@ public class ClassService
         return this.repository.findByTitleContainingAndDescriptionContainingAndActiveTrue(title, description, pagination).map((entity) ->
             this.mapper.entityToResponse(entity)
         );
+    }
+
+    @Override
+    @Transactional
+    public ClassResponse create(ClassRequest request) {
+        ClassEntity entity = this.mapper.requestToEntity(request); 
+        entity.setActive(true);
+        entity.setLessons(new ArrayList<>());
+        entity.setStudents(new ArrayList<>());
+        
+        ClassEntity entitySaved = this.repository.save(entity);
+
+        return this.mapper.entityToResponse(entitySaved);
     }
 }
