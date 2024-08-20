@@ -65,5 +65,15 @@ public class StudentService
 
         return this.mapper.entityToResponse(entitySaved);
     }
+
+    public StudentResponse disable(String id) {
+        
+        StudentEntity enitity = this.find(id);
+        enitity.setActive(false);
+        
+        StudentEntity studentDisabled = this.repository.save(enitity);
+
+        return this.mapper.entityToResponse(studentDisabled);
+    }
     
 }
