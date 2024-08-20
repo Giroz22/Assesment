@@ -3,6 +3,7 @@ package com.example.RiwiAssesment.infrastructure.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -76,4 +77,19 @@ public class StudentService
         return this.mapper.entityToResponse(studentDisabled);
     }
     
+    @Override
+    @Transactional
+    public StudentResponse update(String id, StudentRequest request) {
+        StudentEntity entity = this.find(id);
+        if(!entity.isActive()) new IdNotFoundException("Student"); 
+
+        StudentEntity entityRequest = this.mapper.requestToEntity(request);
+
+        BeanUtils.copyProperties(entityRequest, entity, "id");
+
+        StudentEntity voucherUpdated = this.repository.save(entity);
+
+        return this.mapper.entityToResponse(voucherUpdated);
+
+    }
 }
